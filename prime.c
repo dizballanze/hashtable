@@ -2,6 +2,7 @@
  * Prime numbers generation routines.
  * implemetation of prime.h
  */
+
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -9,6 +10,7 @@
 #include <math.h>
 
 #include "prime.h"
+#include "table.h"
 
 
 /* Calculate a ^ b (mod n) */
