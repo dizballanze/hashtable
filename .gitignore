@@ -1,0 +1,5 @@
+*.o
+*.swp
+prime
+hashtable
+.vagrant
