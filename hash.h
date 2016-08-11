@@ -11,5 +11,6 @@ struct hash_instance {
 
 typedef struct hash_instance hash_instance;
 
-uint64_t hash_int(hash_instance *instance, uint64_t table_size, uint64_t key);
 void hash_create_random(hash_instance *instance);
+uint64_t hash_int(hash_instance *instance, uint64_t table_size, uint64_t key);
+uint64_t hash_string(hash_instance *instance, uint64_t table_size, char *key);
