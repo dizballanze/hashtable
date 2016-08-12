@@ -12,5 +12,6 @@
 void hash_table_init(hash_table *table, uint64_t size) {
     table->items = (hash_table_item *) calloc(size, sizeof(hash_table_item));
     table->size = size;
-    hash_init_random(table->hash_params);
+    table->used_items_count = 0;
+    hash_init_random(&table->hash_params);
 }
