@@ -32,16 +32,9 @@ uint64_t hash_string(hash_function_params *instance, char *key) {
  * h(k) = (h1(h) + i * h2(k)) mod m
  */
 uint64_t hash_string_iterable(hash_function_params *instance, uint64_t table_size, uint64_t iteration, char *key) {
-    uint64_t h_value, h2_value;
+    uint64_t h_value;
     h_value = hash_int(instance, hash_string(instance, key));
-    if (iteration) {
-        h2_value = h_value;
-        // Should be odd
-        if ((h2_value % 2) == 0) {
-           h2_value += 1;
-        }
-        h_value = h_value + iteration * h2_value;
-    }
+    h_value = h_value + iteration * (h_value * 2 + 1);
     return h_value % table_size;
 }
 
