@@ -27,5 +27,6 @@ int main(void) {
     } else {
         printf("Not found\n");
     }
+    hash_table_destroy(&table, 1);
     return 0;
 }
