@@ -27,3 +27,4 @@ uint64_t hash_table_insert(hash_table *table, char *key, char *value);
 hash_table_item *hash_table_search(hash_table *table, char *key);
 uint8_t hash_table_delete_item_by_key(hash_table *table, char *key);
 void hash_table_destroy(hash_table *table, uint8_t clear_keys);
+uint8_t hash_table_extend(hash_table *table, uint64_t new_size);

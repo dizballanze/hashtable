@@ -12,7 +12,9 @@ int main(void) {
     char value2[] = "Item 2";
     hash_table_item *found_item;
     hash_table table;
-    hash_table_init(&table, 10000);
+    hash_table_init(&table, 128);
+    printf("prime: %" PRIu64 "\n", table.hash_params.prime);
+    hash_table_extend(&table, 256);
     printf("prime: %" PRIu64 "\n", table.hash_params.prime);
     hash_table_insert(&table, key, value);
     hash_table_insert(&table, key2, value2);

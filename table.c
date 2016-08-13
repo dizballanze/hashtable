@@ -88,3 +88,29 @@ void hash_table_destroy(hash_table *table, uint8_t clear_keys) {
     table->size = 0;
     table->used_items_count = 0;
 }
+
+/* Increase table size */
+uint8_t hash_table_extend(hash_table *table, uint64_t new_size) {
+    if (table->size >= new_size) {
+        return -1;
+    }
+    // Initialize temporarty table
+    hash_table temp_table;
+    hash_table_init(&temp_table, new_size);
+    // Insert items to the new table
+    hash_table_item *curr_item;
+    for (uint64_t i; i < table->size; i++) {
+        curr_item = &table->items[i];
+        if (curr_item->is_init && !curr_item->is_deleted) {
+            hash_table_insert(&temp_table, curr_item->key, curr_item->value);
+        }
+    }
+    // Free memory of old table
+    hash_table_destroy(table, 0);
+    // Set new hash params
+    table->hash_params = temp_table.hash_params;
+    table->items = temp_table.items;
+    table->size = new_size;
+    table->used_items_count = temp_table.used_items_count;
+    return 1;
+}
