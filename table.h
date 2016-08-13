@@ -7,7 +7,7 @@
 
 typedef struct hash_table_item hash_table_item;
 struct hash_table_item {
-    uint64_t key;
+    char *key;
     char *value;
     uint8_t is_deleted;
     uint8_t is_init;
@@ -23,3 +23,5 @@ struct hash_table {
 
 
 void hash_table_init(hash_table *table, uint64_t size);
+
+uint64_t hash_table_insert(hash_table *table, char *key, char *value);
