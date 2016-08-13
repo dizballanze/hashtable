@@ -20,5 +20,12 @@ int main(void) {
     printf("%s\n", found_item->value);
     found_item = hash_table_search(&table, key2);
     printf("%s\n", found_item->value);
+    hash_table_delete_item_by_key(&table, key);
+    found_item = hash_table_search(&table, key);
+    if (found_item) {
+        printf("Found\n");
+    } else {
+        printf("Not found\n");
+    }
     return 0;
 }

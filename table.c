@@ -50,7 +50,7 @@ hash_table_item *hash_table_search(hash_table *table, char *key) {
         curr_index = hash_string_iterable(&table->hash_params, table->size, iteration, key);
         curr_item = &table->items[curr_index];
         // Found
-        if (curr_item->is_init && (strcmp(curr_item->key, key) == 0)) {
+        if (curr_item->is_init && !curr_item->is_deleted && (strcmp(curr_item->key, key) == 0)) {
             return curr_item;
         }
         // Search completed
@@ -59,4 +59,15 @@ hash_table_item *hash_table_search(hash_table *table, char *key) {
         }
     }
     return NULL;
+}
+
+/* Delete item by key */
+uint8_t hash_table_delete_item_by_key(hash_table *table, char *key) {
+    hash_table_item *found_item;
+    found_item = hash_table_search(table, key);
+    if (!found_item) {
+        return 0;
+    }
+    found_item->is_deleted = 1;
+    return 1;
 }
