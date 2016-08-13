@@ -41,3 +41,22 @@ uint64_t hash_table_insert(hash_table *table, char *key, char *value) {
     }
     return -1;
 }
+
+/* Search for key in hash table */
+hash_table_item *hash_table_search(hash_table *table, char *key) {
+    uint64_t curr_index;
+    hash_table_item *curr_item;
+    for (uint64_t iteration=0; iteration <= table->size; ++iteration) {
+        curr_index = hash_string_iterable(&table->hash_params, table->size, iteration, key);
+        curr_item = &table->items[curr_index];
+        // Found
+        if (curr_item->is_init && (strcmp(curr_item->key, key) == 0)) {
+            return curr_item;
+        }
+        // Search completed
+        if (!curr_item->is_init) {
+            return NULL;
+        }
+    }
+    return NULL;
+}
