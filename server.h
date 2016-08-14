@@ -14,8 +14,11 @@
 #include <sys/time.h>
 #include <sys/epoll.h>
 
+#include "table.h"
+
 #define MAX_PENDING_CONNS 100
-#define MAX_DATASIZE 1024
+#define MAX_DATASIZE 10485760
+#define MAX_RESP_SIZE 10485760
 #define MAX_EVENTS 100
 
 

@@ -1,4 +1,4 @@
-CFLAGS = -Wall -g -std=gnu99
+CFLAGS = -Wall -g -std=gnu99 -O0
 LIBS = -lm
 BIN = main
 BIN_NAME = hashtable

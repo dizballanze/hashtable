@@ -20,10 +20,40 @@ int make_socket_non_blocking(int sfd) {
     return 0;
 }
 
+/* Process user command */
+uint8_t process_user_input(hash_table *table, char *input, char *resp_buffer) {
+    char *command;
+    command = strtok(input, " ");
+    if (!command) {
+        printf("Empty command\n");
+        sprintf(resp_buffer, "Error: Empty command\n");
+        return 0;
+    }
+    if (strcmp(command, "SET") == 0) {
+        printf("SET command\n");
+        return 1;
+    }
+    if (strcmp(command, "GET") == 0) {
+        printf("GET command\n");
+        return 1;
+    }
+    if (strcmp(command, "DELETE") == 0) {
+        printf("DELETE command\n");
+        return 1;
+    }
+    printf("Unknown command: %s\n", command);
+    sprintf(resp_buffer, "Error: Unknown command\n");
+    return 0;
+}
+
 
 uint8_t start_server(char *listen_host, char *listen_port) {
+    hash_table table;
     int status, sockfd, yes = 1;
     struct addrinfo hints, *myaddr;
+
+    // Initialize hash table
+    hash_table_init(&table, 128);
 
     // Get server (self) address info
     memset(&hints, 0, sizeof(hints));
@@ -70,7 +100,8 @@ uint8_t start_server(char *listen_host, char *listen_port) {
     // Event loop
     int epfd, received, received_events;
     int client_fd;
-    char read_buffer[MAX_DATASIZE];
+    char *read_buffer = malloc(MAX_DATASIZE);
+    char *resp_buffer = malloc(MAX_RESP_SIZE);
     struct epoll_event epevent, curr_event;
     struct epoll_event events[MAX_EVENTS];
     
@@ -133,8 +164,11 @@ uint8_t start_server(char *listen_host, char *listen_port) {
             }
             read_buffer[received] = '\0';
             printf("Message: %s\n", read_buffer);
+            process_user_input(&table, read_buffer, resp_buffer);
         }
     }
 
+    free(read_buffer);
+    free(resp_buffer);
     return 0;
 }
