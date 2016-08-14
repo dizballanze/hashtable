@@ -5,10 +5,12 @@
 #include "server.h"
 
 
-int main(void) {
-    char port[] = "31337";
-    char host[] = "0.0.0.0";
+int main(int argc, char **argv) {
+    if (argc != 3) {
+        fprintf(stderr, "Wrong argument count!\nUsage example: hashtable <host> <port>\n");
+        return 1;
+    }
     // Start server
-    start_server(host, port);
+    start_server(argv[1], argv[2]);
     return 0;
 }
