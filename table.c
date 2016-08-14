@@ -61,7 +61,7 @@ hash_table_item *hash_table_search(hash_table *table, char *key) {
     return NULL;
 }
 
-/* Delete item by key */
+/* Delete item by key and free key, value memory */
 uint8_t hash_table_delete_item_by_key(hash_table *table, char *key) {
     hash_table_item *found_item;
     found_item = hash_table_search(table, key);
@@ -69,6 +69,8 @@ uint8_t hash_table_delete_item_by_key(hash_table *table, char *key) {
         return 0;
     }
     found_item->is_deleted = 1;
+    free(found_item->key);
+    free(found_item->value);
     return 1;
 }
 
