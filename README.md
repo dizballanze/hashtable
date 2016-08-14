@@ -11,6 +11,7 @@ Features:
 - universal hashing algorithm based on random prime numbers generation
 - auto extend table size where fill ration >= 0.5
 
+![usage example](usage.gif)
 
 ## Build
 
