@@ -118,7 +118,7 @@ uint8_t start_server(char *listen_host, char *listen_port) {
     struct addrinfo hints, *myaddr;
 
     // Initialize hash table
-    hash_table_init(&table, 2);
+    hash_table_init(&table, 128);
 
     // Get server (self) address info
     memset(&hints, 0, sizeof(hints));
