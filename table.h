@@ -17,6 +17,7 @@ typedef struct hash_table hash_table;
 struct hash_table {
     uint64_t size;
     uint64_t used_items_count;
+    uint64_t not_deleted_used_items_count;
     hash_function_params hash_params;
     hash_table_item *items;
 };

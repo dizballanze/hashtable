@@ -57,12 +57,17 @@ uint8_t delete_handler(hash_table *table, char *key) {
     return hash_table_delete_item_by_key(table, key);
 }
 
+/* COUNT command handler */
+uint64_t count_handler(hash_table *table) {
+    return table->not_deleted_used_items_count;
+}
+
 /* Process user command */
 uint8_t process_user_input(hash_table *table, char *input, char *resp_buffer) {
     char *command;
     char *key;
     char *value;
-    command = strtok(input, " ");
+    command = strtok(input, " \r\n");
     if (!command) {
         sprintf(resp_buffer, "Error: Empty command\n");
         return 0;
@@ -95,6 +100,10 @@ uint8_t process_user_input(hash_table *table, char *input, char *resp_buffer) {
         } else {
             sprintf(resp_buffer, "NOT FOUND\n");
         }
+        return 1;
+    }
+    if (strcmp(command, "COUNT") == 0) {
+        sprintf(resp_buffer, "DONE\n%" PRIu64 "\n", count_handler(table));
         return 1;
     }
     printf("Unknown command: %s\n", command);

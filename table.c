@@ -14,6 +14,7 @@ void hash_table_init(hash_table *table, uint64_t size) {
     table->items = (hash_table_item *) calloc(size, sizeof(hash_table_item));
     table->size = size;
     table->used_items_count = 0;
+    table->not_deleted_used_items_count = 0;
     hash_init_random(&table->hash_params);
 }
 
@@ -26,11 +27,14 @@ uint64_t hash_table_insert(hash_table *table, char *key, char *value) {
         curr_item = &table->items[curr_index];
         /* Insert on empty or deleted item */
         if (curr_item->is_deleted || !curr_item->is_init) {
+            if (!curr_item->is_deleted) {
+                table->used_items_count++;
+            }
             curr_item->is_deleted = 0;
             curr_item->is_init = 1;
             curr_item->key = key;
             curr_item->value = value;
-            table->used_items_count++;
+            table->not_deleted_used_items_count++;
             return iteration;
         }
         /* Rewrite existed item */
@@ -68,6 +72,7 @@ uint8_t hash_table_delete_item_by_key(hash_table *table, char *key) {
     if (!found_item) {
         return 0;
     }
+    table->not_deleted_used_items_count--;
     found_item->is_deleted = 1;
     free(found_item->key);
     free(found_item->value);
@@ -89,6 +94,7 @@ void hash_table_destroy(hash_table *table, uint8_t clear_keys) {
     free(table->items);
     table->size = 0;
     table->used_items_count = 0;
+    table->not_deleted_used_items_count = 0;
 }
 
 /* Increase table size */
@@ -101,7 +107,7 @@ uint8_t hash_table_extend(hash_table *table, uint64_t new_size) {
     hash_table_init(&temp_table, new_size);
     // Insert items to the new table
     hash_table_item *curr_item;
-    for (uint64_t i; i < table->size; i++) {
+    for (uint64_t i=0; i < table->size; i++) {
         curr_item = &table->items[i];
         if (curr_item->is_init && !curr_item->is_deleted) {
             hash_table_insert(&temp_table, curr_item->key, curr_item->value);
@@ -114,5 +120,6 @@ uint8_t hash_table_extend(hash_table *table, uint64_t new_size) {
     table->items = temp_table.items;
     table->size = new_size;
     table->used_items_count = temp_table.used_items_count;
+    table->not_deleted_used_items_count = temp_table.used_items_count;
     return 1;
 }
