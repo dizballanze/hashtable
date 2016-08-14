@@ -9,7 +9,7 @@ Features:
 - simple text protocol
 - hash table with opened addressing (double hashing)
 - universal hashing algorithm based on random prime numbers generation
-- auto extend table size where fill ration >= 0.5
+- auto extend table size when fill ration >= 0.5
 
 ![usage example](usage.gif)
 
