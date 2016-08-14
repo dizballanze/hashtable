@@ -24,9 +24,11 @@ int make_socket_non_blocking(int sfd) {
 void remove_linebreak(char *str) {
     char *linebreak;
     linebreak = strrchr(str, '\n');
-    *linebreak = '\0';
+    if (linebreak)
+        *linebreak = '\0';
     linebreak = strrchr(str, '\r');
-    *linebreak = '\0';
+    if (linebreak)
+        *linebreak = '\0';
 }
 
 /* SET command handler */
