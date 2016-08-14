@@ -20,9 +20,12 @@ uint64_t hash_int(hash_function_params *instance, uint64_t key) {
 /* Hash string key */
 uint64_t hash_string(hash_function_params *instance, char *key) {
     size_t key_length = strlen(key);
+    // Horner's rule
     uint64_t key_sum = 0;
+    uint64_t coef = 1;
     for (size_t i = 0; i < key_length; i++) {
-        key_sum = (uint8_t) key[i] * pow((double)instance->hash_coef_a, (double)i);
+        key_sum += key[i] * coef;
+        coef *= instance->hash_coef_a;
     }
     return key_sum;
 }
