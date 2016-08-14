@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <inttypes.h>
 
+#include "server.h"
 #include "table.h"
 
 
@@ -29,6 +30,7 @@ int main(void) {
     } else {
         printf("Not found\n");
     }
+    start_server("10.1.1.66", "15000");
     hash_table_destroy(&table, 1);
     return 0;
 }

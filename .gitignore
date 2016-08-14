@@ -2,6 +2,7 @@
 *.swp
 prime
 hashtable
+server
 .vagrant
 
 # Created by https://www.gitignore.io/api/c

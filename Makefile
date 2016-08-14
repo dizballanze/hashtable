@@ -2,7 +2,7 @@ CFLAGS = -Wall -g -std=gnu99
 LIBS = -lm
 BIN = main
 BIN_NAME = hashtable
-OBJS = prime.o hash.o table.o
+OBJS = prime.o hash.o table.o server.o
 DEFS =
 
 $(BIN): $(OBJS) $(BIN).c
