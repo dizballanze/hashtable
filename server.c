@@ -20,25 +20,77 @@ int make_socket_non_blocking(int sfd) {
     return 0;
 }
 
+/* Remove line breaks from the end of the string */
+void remove_linebreak(char *str) {
+    char *linebreak;
+    linebreak = strrchr(str, '\n');
+    *linebreak = '\0';
+    linebreak = strrchr(str, '\r');
+    *linebreak = '\0';
+}
+
+/* SET command handler */
+void set_handler(hash_table *table, char *key, char *value) {
+    char *key_holder = malloc(strlen(key));
+    char *value_holder = malloc(strlen(value));
+    strcpy(key_holder, key);
+    strcpy(value_holder, value);
+    hash_table_insert(table, key_holder, value_holder);
+}
+
+/* GET command handler */
+char *get_handler(hash_table *table, char *key) {
+    hash_table_item *needle;
+    needle = hash_table_search(table, key);
+    if (!needle) {
+        return NULL;
+    }
+    return needle->value;
+}
+
+/* DELETE command handler */
+uint8_t delete_handler(hash_table *table, char *key) {
+    return hash_table_delete_item_by_key(table, key);
+}
+
 /* Process user command */
 uint8_t process_user_input(hash_table *table, char *input, char *resp_buffer) {
     char *command;
+    char *key;
+    char *value;
     command = strtok(input, " ");
     if (!command) {
-        printf("Empty command\n");
         sprintf(resp_buffer, "Error: Empty command\n");
         return 0;
     }
     if (strcmp(command, "SET") == 0) {
-        printf("SET command\n");
+        key = strtok(NULL, " ");
+        value = key + strlen(key) + 1;
+        remove_linebreak(value);
+        printf("SET command with key %s and value %s\n", key, value);
+        set_handler(table, key, value);
+        sprintf(resp_buffer, "DONE\n");
         return 1;
     }
     if (strcmp(command, "GET") == 0) {
-        printf("GET command\n");
+        key = strtok(NULL, " ");
+        remove_linebreak(key);
+        value = get_handler(table, key);
+        if (value) {
+            sprintf(resp_buffer, "DONE\n%s\n", value);
+        } else {
+            sprintf(resp_buffer, "NOT FOUND\n");
+        }
         return 1;
     }
     if (strcmp(command, "DELETE") == 0) {
-        printf("DELETE command\n");
+        key = strtok(NULL, " ");
+        remove_linebreak(key);
+        if (delete_handler(table, key)) {
+            sprintf(resp_buffer, "DONE\n");
+        } else {
+            sprintf(resp_buffer, "NOT FOUND\n");
+        }
         return 1;
     }
     printf("Unknown command: %s\n", command);
@@ -100,6 +152,7 @@ uint8_t start_server(char *listen_host, char *listen_port) {
     // Event loop
     int epfd, received, received_events;
     int client_fd;
+    size_t sended;
     char *read_buffer = malloc(MAX_DATASIZE);
     char *resp_buffer = malloc(MAX_RESP_SIZE);
     struct epoll_event epevent, curr_event;
@@ -165,6 +218,11 @@ uint8_t start_server(char *listen_host, char *listen_port) {
             read_buffer[received] = '\0';
             printf("Message: %s\n", read_buffer);
             process_user_input(&table, read_buffer, resp_buffer);
+            sended = send(client_fd, resp_buffer, strlen(resp_buffer), 0);
+            if (sended != strlen(resp_buffer)) {
+                perror("send");
+                continue;
+            }
         }
     }
 
