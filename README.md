@@ -22,6 +22,7 @@ with Vagrant:
 git clone git@github.com:dizballanze/hashtable.git
 cd hashtable
 vagrant up
+vagrant ssh
 cd proj
 make
 ```
