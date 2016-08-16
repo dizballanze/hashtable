@@ -2,6 +2,8 @@
  * Universal hashing interface
  */
 
+#include <stdint.h>
+
 
 typedef struct hash_function_params hash_function_params;
 struct hash_function_params {
