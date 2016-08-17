@@ -176,6 +176,8 @@ uint8_t start_server(char *listen_host, char *listen_port) {
     // Create epoll instance
     epfd = epoll_create1(0);
     if (epfd < 0) {
+        free(read_buffer);
+        free(resp_buffer);
         perror("epoll_create1");
         return 1;
     }
@@ -184,6 +186,8 @@ uint8_t start_server(char *listen_host, char *listen_port) {
     epevent.data.fd = sockfd;
     epevent.events = EPOLLIN;
     if (epoll_ctl(epfd, EPOLL_CTL_ADD, sockfd, &epevent)) {
+        free(read_buffer);
+        free(resp_buffer);
         perror("epoll_ctl");
         return 1;
     }
@@ -192,6 +196,8 @@ uint8_t start_server(char *listen_host, char *listen_port) {
         // Wait for events
         received_events = epoll_wait(epfd, events, MAX_EVENTS, -1);
         if (received_events == -1) {
+            free(read_buffer);
+            free(resp_buffer);
             perror("epoll_wait");
             return 1;
         }
@@ -209,12 +215,16 @@ uint8_t start_server(char *listen_host, char *listen_port) {
                     continue;
                 }
                 if (make_socket_non_blocking(client_fd)) {
+                    free(read_buffer);
+                    free(resp_buffer);
                     return 1;
                 }
                 // Add client descriptor to epoll
                 epevent.data.fd = client_fd;
                 epevent.events = EPOLLIN;
                 if (epoll_ctl(epfd, EPOLL_CTL_ADD, client_fd, &epevent)) {
+                    free(read_buffer);
+                    free(resp_buffer);
                     perror("epoll_ctl");
                     return 1;
                 }
