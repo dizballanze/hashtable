@@ -166,13 +166,13 @@ uint8_t start_server(char *listen_host, char *listen_port) {
 
     // Event loop
     int epfd, received, received_events;
-    int client_fd;
+    int client_fd = 0;
     size_t sended;
     char *read_buffer = malloc(MAX_DATASIZE);
     char *resp_buffer = malloc(MAX_RESP_SIZE);
     struct epoll_event epevent, curr_event;
     struct epoll_event events[MAX_EVENTS];
-    
+
     // Create epoll instance
     epfd = epoll_create1(0);
     if (epfd < 0) {
