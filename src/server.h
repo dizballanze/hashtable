@@ -1,3 +1,6 @@
+#ifndef _SERVER_H
+#define _SERVER_H
+
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -24,3 +27,5 @@
 
 
 uint8_t start_server(char *listen_host, char *listen_port);
+
+#endif
