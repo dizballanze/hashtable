@@ -83,7 +83,7 @@ uint8_t hash_table_delete_item_by_key(hash_table *table, char *key) {
 void hash_table_destroy(hash_table *table, uint8_t clear_keys) {
     hash_table_item *curr_item;
     if (clear_keys) {
-        for (uint64_t i; i < table->size; i++) {
+        for (uint64_t i = 0; i < table->size; i++) {
             curr_item = &table->items[i];
             if (curr_item->is_init) {
                 free(curr_item->key);

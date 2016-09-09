@@ -1,16 +1,16 @@
 hashtable
 ---------
 
-Simple async hash table server with text protocol. Project was build for learning purpose only.
+Simple async hash table server with text protocol. The project was built for learning purpose only.
 
 Features:
 
-- asyncronous TCP server with epoll
+- asynchronous TCP server with epoll
 - simple text protocol
 - hash table with opened addressing (double hashing)
 - universal hashing algorithm based on random prime numbers generation
 - string hashing with Horner's rule
-- auto extend table size when fill ration >= 0.5
+- auto extend table size when fill ratio >= 0.5
 
 ![usage example](usage.gif)
 
@@ -22,6 +22,7 @@ with Vagrant:
 git clone git@github.com:dizballanze/hashtable.git
 cd hashtable
 vagrant up
+vagrant ssh
 cd proj
 make
 ```

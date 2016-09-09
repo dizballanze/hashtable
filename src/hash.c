@@ -3,7 +3,6 @@
  * implementation of hash.h
  */
 
-#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
