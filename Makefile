@@ -7,7 +7,7 @@ OBJS = prime.o hash.o table.o server.o
 DEFS =
 
 $(BIN): $(OBJS) $(SRCDIR)/$(BIN).c
-	$(CC) $(CFLAGS) $(DEFS) $(LIBS) $(OBJS) $(SRCDIR)/$(BIN).c -o $(BIN_NAME)
+	$(CC) $(CFLAGS) $(DEFS) $(OBJS) $(SRCDIR)/$(BIN).c -o $(BIN_NAME) $(LIBS)
 
 %.o: $(SRCDIR)/%.c $(SRCDIR)/%.h
 	$(CC) -c $(CFLAGS) $(DEFS) $< -o $@

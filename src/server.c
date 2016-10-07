@@ -33,8 +33,8 @@ void remove_linebreak(char *str) {
 
 /* SET command handler */
 void set_handler(hash_table *table, char *key, char *value) {
-    char *key_holder = malloc(strlen(key));
-    char *value_holder = malloc(strlen(value));
+    char *key_holder = malloc(strlen(key) + 1);
+    char *value_holder = malloc(strlen(value) + 1);
     strcpy(key_holder, key);
     strcpy(value_holder, value);
     hash_table_insert(table, key_holder, value_holder);
