@@ -1,6 +1,8 @@
 hashtable
 ---------
 
+[![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/dizballanze)
+
 Simple async hash table server with text protocol. The project was built for learning purpose only.
 
 Features:
